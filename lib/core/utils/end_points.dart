@@ -1,4 +1,5 @@
 abstract class EndPoints {
   // ignore: constant_identifier_names
-  static const BASE_URL = 'http://msalem103-001-site3.ltempurl.com/api/';
+  static const BASE_URL = 'http://graduation-project.runasp.net/';
+  static const auth = 'auth';
 }

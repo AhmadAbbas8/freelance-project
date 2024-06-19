@@ -5,7 +5,7 @@ abstract class AppTheme {
     dividerTheme: const DividerThemeData(
       thickness: 3,
     ),
-    scaffoldBackgroundColor: Color(0xFFFAFAFA),
+    scaffoldBackgroundColor: Colors.white,
     cardTheme: const CardTheme(
       color: Colors.white,
     ),
@@ -31,6 +31,13 @@ abstract class AppTheme {
       backgroundColor: const Color(0xFF50B0A2),
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(50),
+      ),
+    ),
+    textTheme: TextTheme(
+      bodyLarge: TextStyle(
+        color: Colors.black,
+        fontSize: 20,
+        fontWeight: FontWeight.bold,
       ),
     ),
     useMaterial3: true,

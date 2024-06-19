@@ -1,5 +1,8 @@
 import 'package:dio/dio.dart';
 import 'package:get_it/get_it.dart';
+import 'package:grad_project/modules/auth/auth_cubit/auth_cubit.dart';
+import 'package:grad_project/modules/auth/data/auth_remote_data_source.dart';
+import 'package:grad_project/modules/auth/data/auth_repo.dart';
 import 'package:internet_connection_checker/internet_connection_checker.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -35,12 +38,16 @@ class ServiceLocator {
     instance.registerLazySingleton<SnackBars>(() => TopSnackBars());
 
     // * BloC/Cubit
-
+    instance.registerFactory<AuthCubit>(() => AuthCubit(authRepo: instance()));
 
     // * DataSources
-
+    instance.registerLazySingleton<AuthRemoteDataSource>(
+        () => AuthRemoteDataSource(apiConsumer: instance()));
 
     // * Repository
-
+    instance.registerLazySingleton<AuthRepo>(() => AuthRepo(
+        cacheStorage: instance(),
+        remoteDataSource: instance(),
+        networkInfo: instance()));
   }
 }

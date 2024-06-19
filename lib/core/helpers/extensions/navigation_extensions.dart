@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:page_transition/page_transition.dart';
 
 extension Navigation on BuildContext {
   Future<dynamic> pushNamed(String routeName, {Object? arguments}) {
@@ -6,9 +7,12 @@ extension Navigation on BuildContext {
   }
 
   Future<dynamic> push(Widget widget) {
-    return Navigator.of(this).push(MaterialPageRoute(
-      builder: (context) => widget,
-    ));
+    return Navigator.of(this).push(
+      PageTransition(
+        child: widget,
+        type: PageTransitionType.leftToRight,
+      ),
+    );
   }
 
   Future<dynamic> pushReplacementNamed(String routeName, {Object? arguments}) {

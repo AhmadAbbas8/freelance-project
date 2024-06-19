@@ -61,7 +61,7 @@ class DioConsumer extends ApiConsumer {
       );
       return response;
     } on DioException catch(e) {
-      throw handleDioExceptions(e);
+      rethrow;
     }
   }
 
@@ -82,7 +82,7 @@ class DioConsumer extends ApiConsumer {
     } on DioException catch (e) {
       log('---------------------on exeption');
       // rethrow;
-      throw handleDioExceptions(e);
+      rethrow;
     }
   }
 
@@ -101,8 +101,7 @@ class DioConsumer extends ApiConsumer {
       );
       return response;
     } on DioException catch (e) {
-      throw handleDioExceptions(e);
-    }
+      rethrow;    }
   }
 
   @override
@@ -122,46 +121,46 @@ class DioConsumer extends ApiConsumer {
                   : Headers.jsonContentType));
       return response;
     } on DioException catch (e) {
-      throw  handleDioExceptions(e);
+      rethrow;
     }
   }
 }
 
-Exception handleDioExceptions(DioException e) {
-  log(e.response?.data.toString()??'',name: 'handleDioExceptions');
-  DefaultResponse defaultErrorModel = const DefaultResponse(
-    message: 'Error in Our Server , try again Later',
-  );
-  switch (e.type) {
-    case DioExceptionType.connectionTimeout:
-    case DioExceptionType.sendTimeout:
-    case DioExceptionType.receiveTimeout:
-    case DioExceptionType.badCertificate:
-    case DioExceptionType.cancel:
-    case DioExceptionType.connectionError:
-    case DioExceptionType.unknown:
-      return ServerException(errorModel: defaultErrorModel);
-    case DioExceptionType.badResponse:
-      switch (e.response?.statusCode) {
-        case 400: // Bad request
-          return e;
-
-        case 401: //unauthorized
-        case 402:
-        case 403:
-        case 404: //not found
-        case 405:
-        case 406:
-        case 407:
-        case 408:
-          return e;
-        case 409: //cofficient
-          return e;
-        case 422: //  Unprocessable Entity
-          return e;
-        case 504: // Server exception
-          return e;
-      }
-  }
-  return ServerException(errorModel: defaultErrorModel);
-}
+// Exception handleDioExceptions(DioException e) {
+//   log(e.response?.data.toString()??'',name: 'handleDioExceptions');
+//   DefaultResponse defaultErrorModel = const DefaultResponse(
+//     message: 'Error in Our Server , try again Later',
+//   );
+//   switch (e.type) {
+//     case DioExceptionType.connectionTimeout:
+//     case DioExceptionType.sendTimeout:
+//     case DioExceptionType.receiveTimeout:
+//     case DioExceptionType.badCertificate:
+//     case DioExceptionType.cancel:
+//     case DioExceptionType.connectionError:
+//     case DioExceptionType.unknown:
+//       return ServerException(errorModel: defaultErrorModel);
+//     case DioExceptionType.badResponse:
+//       switch (e.response?.statusCode) {
+//         case 400: // Bad request
+//           return e;
+//
+//         case 401: //unauthorized
+//         case 402:
+//         case 403:
+//         case 404: //not found
+//         case 405:
+//         case 406:
+//         case 407:
+//         case 408:
+//           return e;
+//         case 409: //cofficient
+//           return e;
+//         case 422: //  Unprocessable Entity
+//           return e;
+//         case 504: // Server exception
+//           return e;
+//       }
+//   }
+//   return ServerException(errorModel: defaultErrorModel);
+// }
