@@ -30,6 +30,35 @@ class AuthRepo {
         var user =
             await remoteDataSource.login(email: email, password: password);
         await cacheStorage.setData(
+          key: SharedPrefsKeys.token,
+          value: user.token ?? '',
+        );
+        await cacheStorage.setData(
+          key: SharedPrefsKeys.user,
+          value: json.encode(
+            user.toJson(),
+          ),
+        );
+        return Right(user);
+      } on ServerException catch (e) {
+        return Left(ServerFailure(model: e.errorModel));
+      }
+    } else {
+      return const Left(OfflineFailure());
+    }
+  }
+
+  Future<Either<Failure, UserModel>> signUp({
+    required Map<String, dynamic> data,
+  }) async {
+    if (await networkInfo.isConnected) {
+      try {
+        var user = await remoteDataSource.signUp(data: data);
+        await cacheStorage.setData(
+          key: SharedPrefsKeys.token,
+          value: user.token ?? '',
+        );
+        await cacheStorage.setData(
           key: SharedPrefsKeys.user,
           value: json.encode(
             user.toJson(),

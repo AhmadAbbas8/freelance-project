@@ -24,6 +24,7 @@ class AuthRemoteDataSource {
         },
       );
       if (res.statusCode == 200) {
+
         return UserModel.fromJson(res.data);
       } else {
         throw ServerException(
@@ -33,6 +34,37 @@ class AuthRemoteDataSource {
       // if (ex.response?.statusCode == 400) {
       throw ServerException(
           errorModel: DefaultResponse(message: 'Invalid UserName or password'));
+      // }
+    }
+  }
+
+  Future<UserModel> signUp({
+    required Map<String, dynamic> data,
+  }) async {
+    try {
+      var res = await apiConsumer.post(
+        EndPoints.register,
+        data: data,
+      );
+      if (res.statusCode == 200) {
+        return UserModel.fromJson(res.data);
+      } else {
+        throw ServerException(
+            errorModel: const DefaultResponse(
+                message: 'Email already exists try to login'));
+      }
+    } catch (ex) {
+      if (ex is DioException) {
+        if (ex.response?.statusCode == 400) {
+          throw ServerException(
+            errorModel: DefaultResponse(message: ex.response?.data ?? ''),
+          );
+        }
+      }
+      // if (ex.response?.statusCode == 400) {
+      throw ServerException(
+          errorModel: const DefaultResponse(
+              message: 'Error in our server please try again later'));
       // }
     }
   }

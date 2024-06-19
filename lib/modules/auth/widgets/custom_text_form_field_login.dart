@@ -38,6 +38,7 @@ class CustomTextFormFieldLogin extends StatelessWidget {
       ),
       decoration: InputDecoration(
         filled: true,
+        errorMaxLines: 5,
         prefixIcon: Icon(prefixIcon),
         suffixIcon: suffixIcon,
         fillColor: Colors.grey[300],

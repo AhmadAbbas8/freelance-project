@@ -36,8 +36,9 @@ extension Navigation on BuildContext {
 
   Future<dynamic> pushAndRemoveUntil(Widget widget, RoutePredicate predicate) {
     return Navigator.of(this).pushAndRemoveUntil(
-        MaterialPageRoute(
-          builder: (context) => widget,
+        PageTransition(
+          child: widget,
+          type: PageTransitionType.leftToRightWithFade,
         ),
         predicate);
   }
