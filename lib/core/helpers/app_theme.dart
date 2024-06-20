@@ -1,13 +1,21 @@
 import 'package:flutter/material.dart';
+import 'package:grad_project/core/utils/colors_palette.dart';
 
 abstract class AppTheme {
   static final lightTheme = ThemeData(
     dividerTheme: const DividerThemeData(
       thickness: 3,
     ),
+
     scaffoldBackgroundColor: Colors.white,
     cardTheme: const CardTheme(
       color: Colors.white,
+      shape: OutlineInputBorder(
+        borderRadius: BorderRadius.all(
+          Radius.circular(15),
+        ),
+      ),
+
     ),
     textButtonTheme: const TextButtonThemeData(
       style: ButtonStyle(
@@ -16,9 +24,13 @@ abstract class AppTheme {
     ),
     appBarTheme: const AppBarTheme(
       centerTitle: true,
+      color: ColorsPalette.primaryColorApp,
+       iconTheme: IconThemeData(
+         color: Colors.white
+       ),
       titleTextStyle: TextStyle(
         fontWeight: FontWeight.bold,
-        color: Colors.black,
+        color: Colors.white,
         fontSize: 19,
         overflow: TextOverflow.ellipsis,
       ),

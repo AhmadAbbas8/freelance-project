@@ -2,16 +2,17 @@ import 'dart:convert';
 import 'dart:developer';
 
 import 'package:dio/dio.dart';
+import 'package:grad_project/core/cache_helper/cache_storage.dart';
+import 'package:grad_project/core/cache_helper/shared_prefs_keys.dart';
+import 'package:grad_project/core/service_locator/service_locator.dart';
 
 class ApiInterceptor extends Interceptor {
   @override
   void onRequest(RequestOptions options, RequestInterceptorHandler handler) {
-    // options.headers.addAll({
-    //   'serverName': 'SQL9001.site4now.net',
-    //   'DbName': 'db_aa30ae_zarqa',
-    //   'username': 'db_aa30ae_zarqa_admin',
-    //   'password': 'sql@1234',
-    // });
+    options.headers.addAll({
+      'Authorization':
+          'Bearer ${ServiceLocator.instance<CacheStorage>().getData(key: SharedPrefsKeys.token)}'
+    });
     log(json.encode(options.data), name: 'onRequest');
     super.onRequest(options, handler);
   }

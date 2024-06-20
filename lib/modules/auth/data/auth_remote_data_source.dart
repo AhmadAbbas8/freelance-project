@@ -1,4 +1,5 @@
 import 'package:dio/dio.dart';
+import 'package:grad_project/core/cache_helper/cache_storage.dart';
 import 'package:grad_project/core/error/default_response.dart';
 import 'package:grad_project/core/error/exception.dart';
 import 'package:grad_project/core/error/failure.dart';
@@ -8,8 +9,9 @@ import 'package:grad_project/modules/auth/data/user_model.dart';
 
 class AuthRemoteDataSource {
   final ApiConsumer apiConsumer;
+  final CacheStorage cacheStorage;
 
-  AuthRemoteDataSource({required this.apiConsumer});
+  AuthRemoteDataSource({required this.apiConsumer, required this.cacheStorage});
 
   Future<UserModel> login({
     required String email,
@@ -24,7 +26,6 @@ class AuthRemoteDataSource {
         },
       );
       if (res.statusCode == 200) {
-
         return UserModel.fromJson(res.data);
       } else {
         throw ServerException(
@@ -68,4 +69,6 @@ class AuthRemoteDataSource {
       // }
     }
   }
+
+  Future<bool> logout() async => await cacheStorage.removeAllData();
 }
