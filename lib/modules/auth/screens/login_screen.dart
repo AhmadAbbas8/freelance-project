@@ -10,10 +10,10 @@ import 'package:grad_project/core/service_locator/service_locator.dart';
 import 'package:grad_project/core/utils/assets_manager.dart';
 import 'package:grad_project/core/utils/icon_broken.dart';
 import 'package:grad_project/modules/auth/auth_cubit/auth_cubit.dart';
+import 'package:grad_project/modules/auth/auth_cubit/auth_logic.dart';
 import 'package:grad_project/modules/auth/screens/resgister_screen.dart';
 import 'package:grad_project/modules/auth/validator.dart';
 
-import '../../home/screens/home_screen.dart';
 import '../widgets/custom_text_form_field_login.dart';
 
 class LoginScreen extends StatelessWidget {
@@ -41,7 +41,7 @@ class LoginScreen extends StatelessWidget {
               context: context,
               message: state.msg,
             );
-            context.pushAndRemoveUntil(const HomeScreen(), (route) => false);
+            AuthLogic.checkUserRole(context, state.role);
           }
         },
         builder: (context, state) {

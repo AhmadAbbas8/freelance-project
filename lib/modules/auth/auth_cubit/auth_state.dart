@@ -17,8 +17,9 @@ final class SignUpError extends AuthState {
 
 final class SignUpSuccess extends AuthState {
   final String msg;
+  final String role;
 
-  SignUpSuccess({required this.msg});
+  SignUpSuccess({required this.msg, required this.role});
 }
 
 final class LoginLoading extends AuthState {}
@@ -31,6 +32,7 @@ final class LoginError extends AuthState {
 
 final class LoginSuccess extends AuthState {
   final String msg;
+  final String role;
 
-  LoginSuccess({required this.msg});
+  LoginSuccess({required this.msg, required this.role});
 }

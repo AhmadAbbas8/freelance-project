@@ -12,6 +12,8 @@ class CustomTextFormFieldLogin extends StatelessWidget {
     this.inputFormatters,
     this.controller,
     this.obscureText = false,
+    this.readOnly = false,
+    this.onTap,
   });
 
   final String hintText;
@@ -22,6 +24,8 @@ class CustomTextFormFieldLogin extends StatelessWidget {
   final List<TextInputFormatter>? inputFormatters;
   final TextEditingController? controller;
   final bool obscureText;
+  final bool readOnly;
+  final void Function()? onTap;
 
   @override
   Widget build(BuildContext context) {
@@ -31,6 +35,8 @@ class CustomTextFormFieldLogin extends StatelessWidget {
       obscureText: obscureText,
       keyboardType: keyboardType,
       inputFormatters: inputFormatters,
+      readOnly: readOnly,
+      onTap: onTap,
       style: const TextStyle(
         fontSize: 15,
         fontWeight: FontWeight.normal,

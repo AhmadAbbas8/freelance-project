@@ -1,7 +1,7 @@
 import 'package:intl/intl.dart';
 
 extension CustomDateFormat on DateFormat {
-  static DateFormat get yyyymmdd => DateFormat('yyyy/MM/dd', 'en_US');
+  static DateFormat get yyyymmdd => DateFormat('yyyy-MM-dd', 'en_US');
 
   String formatToYyyymmdd(DateTime date) {
     return yyyymmdd.format(date);

@@ -57,7 +57,7 @@ class AuthRemoteDataSource {
       if (ex is DioException) {
         if (ex.response?.statusCode == 400) {
           throw ServerException(
-            errorModel: DefaultResponse(message: ex.response?.data ?? ''),
+            errorModel: DefaultResponse(message: 'Email Already Exists'),
           );
         }
       }
