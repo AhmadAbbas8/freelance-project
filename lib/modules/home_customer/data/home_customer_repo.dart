@@ -3,6 +3,7 @@ import 'package:grad_project/core/error/exception.dart';
 import 'package:grad_project/core/error/failure.dart';
 import 'package:grad_project/core/network/network_info.dart';
 import 'package:grad_project/modules/home_customer/data/home_customer_remote_data_source.dart';
+import 'package:grad_project/modules/home_customer/data/project_model.dart';
 
 import 'categories_model.dart';
 
@@ -19,6 +20,39 @@ class HomeCustomerRepo {
         return Right(res);
       } on ServerException catch (ex) {
         print('-----------------------server--------------');
+        return Left(
+          ServerFailure(model: ex.errorModel),
+        );
+      }
+    } else {
+      return const Left(OfflineFailure());
+    }
+  }
+
+  Future<Either<Failure, List<ProjectModel>>> getCurrentProject() async {
+    if (await networkInfo.isConnected) {
+      try {
+        var res = await remoteDataSource.getCurrentProject();
+        return Right(res);
+      } on ServerException catch (ex) {
+        print('-----------------------server--------------');
+        return Left(
+          ServerFailure(model: ex.errorModel),
+        );
+      }
+    } else {
+      return const Left(OfflineFailure());
+    }
+  }
+
+  Future<Either<Failure, ProjectModel>> addNewProject(
+    dynamic data,
+  ) async {
+    if (await networkInfo.isConnected) {
+      try {
+        var res = await remoteDataSource.addNewProject(data);
+        return Right(res);
+      } on ServerException catch (ex) {
         return Left(
           ServerFailure(model: ex.errorModel),
         );

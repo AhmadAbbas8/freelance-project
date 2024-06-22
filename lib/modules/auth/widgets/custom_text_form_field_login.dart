@@ -5,7 +5,7 @@ class CustomTextFormFieldLogin extends StatelessWidget {
   const CustomTextFormFieldLogin({
     super.key,
     required this.hintText,
-    required this.prefixIcon,
+    this.prefixIcon,
     this.suffixIcon,
     this.validator,
     this.keyboardType,
@@ -14,10 +14,11 @@ class CustomTextFormFieldLogin extends StatelessWidget {
     this.obscureText = false,
     this.readOnly = false,
     this.onTap,
+    this.maxLines = 1,
   });
 
   final String hintText;
-  final IconData prefixIcon;
+  final IconData? prefixIcon;
   final Widget? suffixIcon;
   final String? Function(String?)? validator;
   final TextInputType? keyboardType;
@@ -25,6 +26,7 @@ class CustomTextFormFieldLogin extends StatelessWidget {
   final TextEditingController? controller;
   final bool obscureText;
   final bool readOnly;
+  final int maxLines;
   final void Function()? onTap;
 
   @override
@@ -45,7 +47,7 @@ class CustomTextFormFieldLogin extends StatelessWidget {
       decoration: InputDecoration(
         filled: true,
         errorMaxLines: 5,
-        prefixIcon: Icon(prefixIcon),
+        prefixIcon: prefixIcon != null ? Icon(prefixIcon) : null,
         suffixIcon: suffixIcon,
         fillColor: Colors.grey[300],
         border: OutlineInputBorder(
@@ -63,6 +65,7 @@ class CustomTextFormFieldLogin extends StatelessWidget {
         ),
         hintText: hintText,
       ),
+      maxLines: maxLines,
     );
   }
 }

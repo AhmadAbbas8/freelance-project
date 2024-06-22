@@ -6,7 +6,6 @@ abstract class AppTheme {
     dividerTheme: const DividerThemeData(
       thickness: 3,
     ),
-
     scaffoldBackgroundColor: Colors.white,
     cardTheme: const CardTheme(
       color: Colors.white,
@@ -15,7 +14,15 @@ abstract class AppTheme {
           Radius.circular(15),
         ),
       ),
-
+    ),
+    bottomNavigationBarTheme: BottomNavigationBarThemeData(
+      backgroundColor: ColorsPalette.primaryColorApp,
+      selectedIconTheme: IconThemeData(
+        color: Colors.white,
+      ),
+      selectedItemColor: Colors.white,
+      unselectedItemColor: Colors.brown,
+     
     ),
     textButtonTheme: const TextButtonThemeData(
       style: ButtonStyle(
@@ -25,9 +32,7 @@ abstract class AppTheme {
     appBarTheme: const AppBarTheme(
       centerTitle: true,
       color: ColorsPalette.primaryColorApp,
-       iconTheme: IconThemeData(
-         color: Colors.white
-       ),
+      iconTheme: IconThemeData(color: Colors.white),
       titleTextStyle: TextStyle(
         fontWeight: FontWeight.bold,
         color: Colors.white,

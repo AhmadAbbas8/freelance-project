@@ -1,14 +1,23 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_staggered_animations/flutter_staggered_animations.dart';
+import 'package:grad_project/core/helpers/extensions/navigation_extensions.dart';
 import 'package:grad_project/core/service_locator/service_locator.dart';
+import 'package:grad_project/core/utils/app_strings.dart';
 import 'package:grad_project/core/utils/colors_palette.dart';
 import 'package:grad_project/core/utils/end_points.dart';
+import 'package:grad_project/core/utils/icon_broken.dart';
 import 'package:grad_project/core/widgets/custom_app_drawer.dart';
 import 'package:grad_project/core/widgets/loading_widget.dart';
+import 'package:grad_project/modules/home_customer/data/project_model.dart';
 import 'package:grad_project/modules/home_customer/logic/home_customer_cubit.dart';
+import 'package:grad_project/modules/home_customer/screens/create_new_project_screen.dart';
 
+import '../widgets/categories_widget_layout.dart';
 import '../widgets/custom_home_customer_card.dart';
+import '../widgets/custom_project_card_widget.dart';
 
 class HomeCustomerScreen extends StatelessWidget {
   const HomeCustomerScreen({super.key});
@@ -18,7 +27,8 @@ class HomeCustomerScreen extends StatelessWidget {
     return BlocProvider(
       create: (_) => ServiceLocator.instance<HomeCustomerCubit>()
         ..getCachingUserModel()
-        ..getCategories(),
+        ..getCategories()
+        ..fetchProjectsCustomer(),
       child: BlocConsumer<HomeCustomerCubit, HomeCustomerState>(
         listener: (context, state) {},
         builder: (context, state) {
@@ -31,41 +41,57 @@ class HomeCustomerScreen extends StatelessWidget {
                   'http://graduationprt24-001-site1.jtempurl.com/Profile/default/male.png',
             ),
             appBar: AppBar(
-              title: const Text('Home'),
+              title: Text(cubit.title[cubit.currentBottomNavIndex]),
             ),
-            body: Center(
-              child: Visibility(
-                visible: state is FetchCategoriesLoading,
-                child: const LoadingWidget(),
-                replacement: Visibility(
-                  visible: cubit.categories.isEmpty,
-                  replacement: AnimationLimiter(
-                    child: ListView.builder(
-                      itemCount: cubit.categories.length,
-                      itemBuilder: (_, index) =>
-                          AnimationConfiguration.staggeredList(
-                        position: index,
-                        duration: const Duration(milliseconds: 1000),
-                        child: SlideAnimation(
-                          horizontalOffset: 50.0,
-                          child: FadeInAnimation(
-                            child: CustomHomeCustomerCard(
-                              title: cubit.categories[index].title ?? '',
-                              providers:
-                                  cubit.categories[index].providers ?? [],
-                              description:
-                                  cubit.categories[index].description ?? '',
-                              imageUrl:
-                                  '${EndPoints.BASE_URL}/images/${cubit.categories[index].imageName}',
-                            ),
-                          ),
-                        ),
-                      ),
+            body: IndexedStack(
+              index: cubit.currentBottomNavIndex,
+              children: [
+                CategoriesWidgetLayout(cubit: cubit, state: state),
+                Center(
+                  child: ListView.builder(
+                    itemCount: cubit.projects.length,
+                    itemBuilder: (_, index) => CustomProjectCardWidget(
+                      project: cubit.projects[index],
                     ),
                   ),
-                  child: const Text('There is No any Category'),
                 ),
+                Center(
+                  child: ListView.builder(
+                    itemCount: cubit.projectsCompleted.length,
+                    itemBuilder: (_, index) => CustomProjectCardWidget(
+                      project: cubit.projectsCompleted[index],
+                    ),
+                  ),
+                ),
+              ],
+            ),
+            floatingActionButton: FloatingActionButton(
+              onPressed: () => context.push(
+                const CreateNewProjectScreen(),
               ),
+              child: const Icon(IconBroken.Plus),
+            ),
+            bottomNavigationBar: BottomNavigationBar(
+              currentIndex: cubit.currentBottomNavIndex,
+              type: BottomNavigationBarType.fixed,
+              onTap: cubit.changeBottomNavIndex,
+              items: const [
+                BottomNavigationBarItem(
+                  icon: Icon(IconBroken.Home),
+                  tooltip: 'Home',
+                  label: 'Home',
+                ),
+                BottomNavigationBarItem(
+                  icon: Icon(IconBroken.Work),
+                  tooltip: 'Projects',
+                  label: 'Projects',
+                ),
+                BottomNavigationBarItem(
+                  icon: Icon(IconBroken.Star),
+                  tooltip: 'Finished',
+                  label: 'Finished',
+                ),
+              ],
             ),
           );
         },
