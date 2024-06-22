@@ -47,19 +47,27 @@ class HomeCustomerScreen extends StatelessWidget {
               index: cubit.currentBottomNavIndex,
               children: [
                 CategoriesWidgetLayout(cubit: cubit, state: state),
-                Center(
-                  child: ListView.builder(
-                    itemCount: cubit.projects.length,
-                    itemBuilder: (_, index) => CustomProjectCardWidget(
-                      project: cubit.projects[index],
+                Visibility(
+                  visible: cubit.projects.isNotEmpty,
+                  replacement: Text('There is no any projects now'),
+                  child: Center(
+                    child: ListView.builder(
+                      itemCount: cubit.projects.length,
+                      itemBuilder: (_, index) => CustomProjectCardWidget(
+                        project: cubit.projects[index],
+                      ),
                     ),
                   ),
                 ),
                 Center(
-                  child: ListView.builder(
-                    itemCount: cubit.projectsCompleted.length,
-                    itemBuilder: (_, index) => CustomProjectCardWidget(
-                      project: cubit.projectsCompleted[index],
+                  child: Visibility(
+                    visible: cubit.projectsCompleted.isNotEmpty,
+                    replacement: Text('There is no any Projects finished'),
+                    child: ListView.builder(
+                      itemCount: cubit.projectsCompleted.length,
+                      itemBuilder: (_, index) => CustomProjectCardWidget(
+                        project: cubit.projectsCompleted[index],
+                      ),
                     ),
                   ),
                 ),
