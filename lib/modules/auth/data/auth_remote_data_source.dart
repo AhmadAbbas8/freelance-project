@@ -17,6 +17,9 @@ class AuthRemoteDataSource {
     required String email,
     required String password,
   }) async {
+    print('-----------');
+    print('$email-----------');
+    print('$password-----------');
     try {
       var res = await apiConsumer.post(
         EndPoints.auth,
@@ -24,6 +27,7 @@ class AuthRemoteDataSource {
           "email": email,
           "password": password,
         },
+        isFromData: false,
       );
       if (res.statusCode == 200) {
         return UserModel.fromJson(res.data);
@@ -42,6 +46,7 @@ class AuthRemoteDataSource {
   Future<UserModel> signUp({
     required Map<String, dynamic> data,
   }) async {
+
     try {
       var res = await apiConsumer.post(
         EndPoints.register,

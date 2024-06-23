@@ -3,7 +3,7 @@ import 'package:grad_project/core/helpers/extensions/navigation_extensions.dart'
 import 'package:grad_project/modules/home_customer/screens/providers_screen.dart';
 
 import '../../../core/utils/colors_palette.dart';
-import '../data/categories_model.dart';
+import '../data/model/categories_model.dart';
 
 class CustomHomeCustomerCard extends StatelessWidget {
   final String title;

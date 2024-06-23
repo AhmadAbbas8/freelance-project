@@ -1,14 +1,31 @@
-import 'package:flutter/material.dart';
+import 'dart:convert';
 
-import '../data/project_model.dart';
+import 'package:flutter/material.dart';
+import 'package:grad_project/core/utils/icon_broken.dart';
+
+import '../../../core/cache_helper/cache_storage.dart';
+import '../../../core/cache_helper/shared_prefs_keys.dart';
+import '../../../core/service_locator/service_locator.dart';
+import '../../auth/data/user_model.dart';
+import '../data/model/project_model.dart';
 
 class OffersItemWidget extends StatelessWidget {
   final Offers offers;
 
-  const OffersItemWidget({super.key, required this.offers});
+  const OffersItemWidget({
+    super.key,
+    required this.offers,
+    required this.onAccept,
+  });
+
+  final VoidCallback onAccept;
 
   @override
   Widget build(BuildContext context) {
+    var userJson = ServiceLocator.instance<CacheStorage>()
+        .getData(key: SharedPrefsKeys.user);
+    var userDecoded = json.decode(userJson);
+    var user = UserModel.fromJson(userDecoded);
     return Card(
       elevation: 5,
       shape: RoundedRectangleBorder(
@@ -21,8 +38,16 @@ class OffersItemWidget extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Icon(
-              offers.status == 'Rejected' ? Icons.close : Icons.check,
-              color: offers.status == 'Rejected' ? Colors.red : Colors.green,
+              offers.status == 'Rejected'
+                  ? Icons.close
+                  : offers.status == 'Pending'
+                      ? Icons.pending_actions
+                      : Icons.check,
+              color: offers.status == 'Rejected'
+                  ? Colors.red
+                  : offers.status == 'Pending'
+                      ? Colors.orangeAccent
+                      : Colors.green,
               size: 30,
             ),
             SizedBox(width: 10),
@@ -45,12 +70,20 @@ class OffersItemWidget extends StatelessWidget {
                       fontSize: 14,
                       color: offers.status == 'Rejected'
                           ? Colors.red
-                          : Colors.green,
+                          : offers.status == 'Pending'
+                              ? Colors.orangeAccent
+                              : Colors.green,
                     ),
                   ),
                 ],
               ),
             ),
+            if (user.role == 'Customer')
+              IconButton.outlined(
+                onPressed: onAccept,
+                icon: Icon(Icons.done),
+                color: Colors.green,
+              )
           ],
         ),
       ),

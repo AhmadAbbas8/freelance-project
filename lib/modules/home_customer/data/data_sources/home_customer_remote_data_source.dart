@@ -9,13 +9,13 @@ import 'package:grad_project/core/error/exception.dart';
 import 'package:grad_project/core/network/api/api_consumer.dart';
 import 'package:grad_project/core/utils/app_strings.dart';
 import 'package:grad_project/core/utils/end_points.dart';
-import 'package:grad_project/modules/home_customer/data/categories_model.dart';
-import 'package:grad_project/modules/home_customer/data/project_model.dart';
+import 'package:grad_project/modules/home_customer/data/model/categories_model.dart';
+import 'package:grad_project/modules/home_customer/data/model/project_model.dart';
 import 'package:image_picker/image_picker.dart';
 
-import '../../../core/cache_helper/cache_storage.dart';
-import '../../../core/cache_helper/shared_prefs_keys.dart';
-import '../../../core/service_locator/service_locator.dart';
+import '../../../../core/cache_helper/cache_storage.dart';
+import '../../../../core/cache_helper/shared_prefs_keys.dart';
+import '../../../../core/service_locator/service_locator.dart';
 
 class HomeCustomerRemoteDataSource {
   final ApiConsumer apiConsumer;
@@ -76,7 +76,7 @@ class HomeCustomerRemoteDataSource {
       };
       var data2 = FormData.fromMap({
         'Image': await MultipartFile.fromFile((data['files'] as XFile).path,
-            filename: (data['files'] as XFile).name),
+            filename: (data['files'] as XFile).name.split('/').last),
         'Title': data['Description'],
         'Description': data['Title']
       });
@@ -96,6 +96,7 @@ class HomeCustomerRemoteDataSource {
       } else {
         print(response.statusMessage);
       }
+
       if (response.statusCode == 201 || response.statusCode == 200) {
         return ProjectModel.fromJson(response.data);
       } else {
@@ -105,6 +106,14 @@ class HomeCustomerRemoteDataSource {
       }
     } catch (ex) {
       log(ex.toString());
+      if (ex is DioException) {
+        if (ex.response?.statusCode == 400) {
+          throw ServerException(
+              errorModel: const DefaultResponse(
+                  message:
+                      'Description and title must be greater than 3 characters'));
+        }
+      }
       // print('------------------------${ex.toString()}');
       throw ServerException(
         errorModel: DefaultResponse(message: ex.toString()),

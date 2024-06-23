@@ -3,8 +3,11 @@ import 'package:get_it/get_it.dart';
 import 'package:grad_project/modules/auth/auth_cubit/auth_cubit.dart';
 import 'package:grad_project/modules/auth/data/auth_remote_data_source.dart';
 import 'package:grad_project/modules/auth/data/auth_repo.dart';
-import 'package:grad_project/modules/home_customer/data/home_customer_remote_data_source.dart';
-import 'package:grad_project/modules/home_customer/data/home_customer_repo.dart';
+import 'package:grad_project/modules/home_customer/data/data_sources/action_customer_remote_data_source.dart';
+import 'package:grad_project/modules/home_customer/data/data_sources/home_customer_remote_data_source.dart';
+import 'package:grad_project/modules/home_customer/data/repo/action_customer_repo.dart';
+import 'package:grad_project/modules/home_customer/data/repo/home_customer_repo.dart';
+import 'package:grad_project/modules/home_customer/logic/actions_cubit/actions_customer_cubit.dart';
 import 'package:grad_project/modules/home_customer/logic/home_customer_cubit.dart';
 import 'package:internet_connection_checker/internet_connection_checker.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -33,7 +36,7 @@ class ServiceLocator {
     instance.registerLazySingleton<ApiConsumer>(() => DioConsumer(
             dio: Dio(BaseOptions(
           baseUrl: EndPoints.BASE_URL,
-          validateStatus: (status) => status == 200,
+          validateStatus: (status) => status == 200||status == 201,
           headers: {
             'Content-Type': 'application/json',
           },
@@ -46,6 +49,9 @@ class ServiceLocator {
           cacheStorage: instance(),
           homeCustomerRepo: instance(),
         ));
+    instance.registerFactory<ActionsCustomerCubit>(() => ActionsCustomerCubit(
+          actionsCustomerRepo: instance(),
+        ));
 
     // * DataSources
     instance.registerLazySingleton<AuthRemoteDataSource>(() =>
@@ -53,6 +59,8 @@ class ServiceLocator {
             apiConsumer: instance(), cacheStorage: instance()));
     instance.registerLazySingleton<HomeCustomerRemoteDataSource>(
         () => HomeCustomerRemoteDataSource(apiConsumer: instance()));
+    instance.registerLazySingleton<ActionsCustomerRemoteDataSource>(
+        () => ActionsCustomerRemoteDataSource(apiConsumer: instance()));
 
     // * Repository
     instance.registerLazySingleton<AuthRepo>(() => AuthRepo(
@@ -61,5 +69,7 @@ class ServiceLocator {
         networkInfo: instance()));
     instance.registerLazySingleton<HomeCustomerRepo>(() => HomeCustomerRepo(
         remoteDataSource: instance(), networkInfo: instance()));
+    instance.registerLazySingleton<ActionsCustomerRepo>(() => ActionsCustomerRepo(
+        actionsCustomerRemoteDataSource: instance(), networkInfo: instance()));
   }
 }

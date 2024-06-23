@@ -28,7 +28,7 @@ class AuthCubit extends Cubit<AuthState> {
   final experienceYearsController = TextEditingController();
   final birthDateController = TextEditingController();
   var formKey = GlobalKey<FormState>();
-  bool obscurePassword = false;
+  bool obscurePassword = true;
 
   Future<void> login() async {
     emit(LoginLoading());
@@ -60,7 +60,7 @@ class AuthCubit extends Cubit<AuthState> {
                 userType == null
             ? true
             : false,
-        "field": fieldController.text,
+        "Field": fieldController.text,
         "Address": addressController.text,
         "Governorate": governorateController.text,
         "PhoneNumber": phoneNumberController.text,

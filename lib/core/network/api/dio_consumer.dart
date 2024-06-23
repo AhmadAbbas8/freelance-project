@@ -111,9 +111,10 @@ class DioConsumer extends ApiConsumer {
     Map<String, dynamic>? queryParameters,
     bool isFromData = false,
   }) async {
+    print(path);
     try {
       var response = await dio.post(path,
-          data: isFromData ? data : data,
+          data: data,
           queryParameters: queryParameters,
           options: Options(
               contentType: isFromData
@@ -121,6 +122,7 @@ class DioConsumer extends ApiConsumer {
                   : Headers.jsonContentType));
       return response;
     } on DioException catch (e) {
+      print(e.error.toString());
       rethrow;
     }
   }

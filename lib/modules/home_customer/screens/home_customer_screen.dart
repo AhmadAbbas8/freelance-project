@@ -11,7 +11,7 @@ import 'package:grad_project/core/utils/end_points.dart';
 import 'package:grad_project/core/utils/icon_broken.dart';
 import 'package:grad_project/core/widgets/custom_app_drawer.dart';
 import 'package:grad_project/core/widgets/loading_widget.dart';
-import 'package:grad_project/modules/home_customer/data/project_model.dart';
+import 'package:grad_project/modules/home_customer/data/model/project_model.dart';
 import 'package:grad_project/modules/home_customer/logic/home_customer_cubit.dart';
 import 'package:grad_project/modules/home_customer/screens/create_new_project_screen.dart';
 

@@ -2,10 +2,10 @@ import 'package:dartz/dartz.dart';
 import 'package:grad_project/core/error/exception.dart';
 import 'package:grad_project/core/error/failure.dart';
 import 'package:grad_project/core/network/network_info.dart';
-import 'package:grad_project/modules/home_customer/data/home_customer_remote_data_source.dart';
-import 'package:grad_project/modules/home_customer/data/project_model.dart';
+import 'package:grad_project/modules/home_customer/data/data_sources/home_customer_remote_data_source.dart';
+import 'package:grad_project/modules/home_customer/data/model/project_model.dart';
 
-import 'categories_model.dart';
+import '../model/categories_model.dart';
 
 class HomeCustomerRepo {
   final HomeCustomerRemoteDataSource remoteDataSource;

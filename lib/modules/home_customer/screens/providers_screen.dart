@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_staggered_animations/flutter_staggered_animations.dart';
 import 'package:grad_project/core/utils/app_strings.dart';
 
-import '../data/categories_model.dart';
+import '../data/model/categories_model.dart';
 
 class ProvidersScreen extends StatelessWidget {
   const ProvidersScreen({

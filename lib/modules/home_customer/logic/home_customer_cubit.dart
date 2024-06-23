@@ -9,14 +9,14 @@ import 'package:grad_project/core/cache_helper/cache_storage.dart';
 import 'package:grad_project/core/cache_helper/shared_prefs_keys.dart';
 import 'package:grad_project/core/network/api/api_consumer.dart';
 import 'package:grad_project/core/service_locator/service_locator.dart';
-import 'package:grad_project/modules/home_customer/data/categories_model.dart';
-import 'package:grad_project/modules/home_customer/data/home_customer_repo.dart';
+import 'package:grad_project/modules/home_customer/data/repo/home_customer_repo.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:meta/meta.dart';
 
 import '../../../core/utils/end_points.dart';
 import '../../auth/data/user_model.dart';
-import '../data/project_model.dart';
+import '../data/model/categories_model.dart';
+import '../data/model/project_model.dart';
 
 part 'home_customer_state.dart';
 
@@ -90,15 +90,19 @@ class HomeCustomerCubit extends Cubit<HomeCustomerState> {
   XFile? image;
 
   pickImage() async {
+   var  oldImage = image;
     try {
       var imagesPicked = await picker.pickImage(
         source: ImageSource.gallery,
       );
       image = imagesPicked;
-      emit(PickedImageSuccess(image: imagesPicked!));
+      if( imagesPicked == null){
+        image = oldImage;
+      }
+      emit(PickedImageSuccess(image: imagesPicked));
     } catch (ex) {
       log(ex.toString());
-      image = null;
+      // image = null;
     }
   }
 

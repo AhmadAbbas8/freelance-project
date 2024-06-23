@@ -13,9 +13,9 @@ final class AddNewProjectError extends HomeCustomerState {
 final class AddNewProjectSuccess extends HomeCustomerState {}
 
 final class PickedImageSuccess extends HomeCustomerState {
-  final XFile image;
+  final XFile? image;
 
-  PickedImageSuccess({required this.image});
+  PickedImageSuccess({ this.image});
 }
 
 final class FetchCategoriesLoading extends HomeCustomerState {}

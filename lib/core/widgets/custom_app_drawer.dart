@@ -59,7 +59,7 @@ class CustomAppDrawer extends StatelessWidget {
             title: 'Privacy policy',
             icon: IconBroken.Lock,
           ),
-          CustomDrawerListTile(
+          const CustomDrawerListTile(
             title: 'Contact us',
             icon: IconBroken.Calling,
             // onTap: () async => await context.pushNamed(ContactUsPage.routeName),
@@ -72,7 +72,7 @@ class CustomAppDrawer extends StatelessWidget {
               ServiceLocator.instance<AuthRemoteDataSource>().logout().then(
                 (value) {
                   context.pushAndRemoveUntil(
-                    LoginScreen(),
+                    const LoginScreen(),
                     (route) => false,
                   );
                 },

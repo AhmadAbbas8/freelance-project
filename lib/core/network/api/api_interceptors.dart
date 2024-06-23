@@ -18,7 +18,7 @@ class ApiInterceptor extends Interceptor {
           'Bearer ${ServiceLocator.instance<CacheStorage>().getData(key: SharedPrefsKeys.token)}'
     });
     log(ServiceLocator.instance<CacheStorage>()
-        .getData(key: SharedPrefsKeys.token));
+        .getData(key: SharedPrefsKeys.token)??'');
     log(json.encode(options.data), name: 'onRequest');
     super.onRequest(options, handler);
   }

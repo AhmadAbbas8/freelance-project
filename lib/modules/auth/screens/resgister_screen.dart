@@ -215,7 +215,8 @@ class RegisterScreen extends StatelessWidget {
                               ),
                             ),
                             const SizedBox(height: 10),
-                            FadeInRight(
+                            if (cubit.userType?.toUpperCase() ==
+                                'Provider'.toUpperCase())   FadeInRight(
                               child: CustomTextFormFieldLogin(
                                 hintText: 'Experience Years',
                                 controller: cubit.experienceYearsController,
