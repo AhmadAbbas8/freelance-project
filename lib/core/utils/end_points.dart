@@ -5,6 +5,7 @@ abstract class EndPoints {
   static const register = '$auth/register';
   static const _api = 'api';
   static const category = '$_api/categories';
+  static const jobs = '$_api/jobs';
   static const addNewProjects = '$_api/projects';
   static const projectsCustomer = '$_api/projects/current-customer';
 }

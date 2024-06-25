@@ -5,7 +5,9 @@ import 'package:grad_project/core/network/api/dio_consumer.dart';
 import 'package:grad_project/core/service_locator/service_locator.dart';
 import 'package:grad_project/core/utils/app_strings.dart';
 import 'package:grad_project/core/widgets/custom_app_drawer.dart';
+import 'package:grad_project/core/widgets/loading_widget.dart';
 import 'package:grad_project/modules/home_provider/cubits/home_provider_cubit/home_provider_cubit.dart';
+import 'package:grad_project/modules/home_provider/screens/jobs_provider_layout.dart';
 
 import '../../../core/utils/icon_broken.dart';
 import '../../home_customer/widgets/custom_project_card_widget.dart';
@@ -33,19 +35,29 @@ class HomeProviderScreen extends StatelessWidget {
             appBar: AppBar(
               title: const Text('Home'),
             ),
-            body: Visibility(
-              visible: cubit.projects.isNotEmpty,
-              replacement: Center(
-                child: Text('There is no any projects now'),
-              ),
-              child: Center(
-                child: ListView.builder(
-                  itemCount: cubit.projects.length,
-                  itemBuilder: (_, index) => CustomProjectCardWidget(
-                    project: cubit.projects[index],
+            body: IndexedStack(
+              index: cubit.currentIndexNav,
+              children: [
+                Visibility(
+                  visible: state is! GetAllProjectProviderLoading,
+                  replacement: LoadingWidget(),
+                  child: Visibility(
+                    replacement: Center(
+                      child: Text('There is no any projects now'),
+                    ),
+                    visible: cubit.projects.isNotEmpty,
+                    child: Center(
+                      child: ListView.builder(
+                        itemCount: cubit.projects.length,
+                        itemBuilder: (_, index) => CustomProjectCardWidget(
+                          project: cubit.projects[index],
+                        ),
+                      ),
+                    ),
                   ),
                 ),
-              ),
+                JobsProviderLayout(),
+              ],
             ),
             bottomNavigationBar: BottomNavigationBar(
               currentIndex: cubit.currentIndexNav,
@@ -58,8 +70,8 @@ class HomeProviderScreen extends StatelessWidget {
                 ),
                 BottomNavigationBarItem(
                   icon: Icon(IconBroken.Work),
-                  tooltip: 'Done',
-                  label: 'Done',
+                  tooltip: 'Jobs',
+                  label: 'Jobs',
                 ),
               ],
             ),
