@@ -29,7 +29,7 @@ abstract class ApiConsumer {
     bool isFromData = false,
   });
 
-  Future<Response> delete(
+  Future<dynamic> delete(
     String path, {
     Object? data,
     Map<String, dynamic>? queryParameters,
