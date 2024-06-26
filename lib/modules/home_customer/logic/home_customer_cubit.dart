@@ -87,44 +87,44 @@ class HomeCustomerCubit extends Cubit<HomeCustomerState> {
     );
   }
 
-  XFile? image;
-
-  pickImage() async {
-   var  oldImage = image;
-    try {
-      var imagesPicked = await picker.pickImage(
-        source: ImageSource.gallery,
-      );
-      image = imagesPicked;
-      if( imagesPicked == null){
-        image = oldImage;
-      }
-      emit(PickedImageSuccess(image: imagesPicked));
-    } catch (ex) {
-      log(ex.toString());
-      // image = null;
-    }
-  }
-
-  Future<void> addNewProject() async {
-
-    emit(AddNewProjectLoading());
-    var res = await homeCustomerRepo.addNewProject({
-      'files':image,
-      'Title': titleController.text,
-      'Description':descriptionController.text
-    });
-    res.fold(
-      (l) => emit(AddNewProjectError(msg: l.model.message ?? '')),
-      (r) => emit(AddNewProjectSuccess()),
-    );
-  }
-
-  bool checkAllValuesForCreateProject() {
-    return titleController.text.isNotEmpty &&
-        descriptionController.text.isNotEmpty &&
-        image != null;
-  }
+  // XFile? image;
+  //
+  // pickImage() async {
+  //  var  oldImage = image;
+  //   try {
+  //     var imagesPicked = await picker.pickImage(
+  //       source: ImageSource.gallery,
+  //     );
+  //     image = imagesPicked;
+  //     if( imagesPicked == null){
+  //       image = oldImage;
+  //     }
+  //     emit(PickedImageSuccess(image: imagesPicked));
+  //   } catch (ex) {
+  //     log(ex.toString());
+  //     // image = null;
+  //   }
+  // }
+  //
+  // Future<void> addNewProject() async {
+  //
+  //   emit(AddNewProjectLoading());
+  //   var res = await homeCustomerRepo.addNewProject({
+  //     'files':image,
+  //     'Title': titleController.text,
+  //     'Description':descriptionController.text
+  //   });
+  //   res.fold(
+  //     (l) => emit(AddNewProjectError(msg: l.model.message ?? '')),
+  //     (r) => emit(AddNewProjectSuccess()),
+  //   );
+  // }
+  //
+  // bool checkAllValuesForCreateProject() {
+  //   return titleController.text.isNotEmpty &&
+  //       descriptionController.text.isNotEmpty &&
+  //       image != null;
+  // }
 
   @override
   Future<void> close() {

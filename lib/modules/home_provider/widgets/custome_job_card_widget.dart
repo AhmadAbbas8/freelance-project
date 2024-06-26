@@ -1,6 +1,8 @@
 import 'dart:developer';
 
 import 'package:flutter/material.dart';
+import 'package:grad_project/core/helpers/extensions/navigation_extensions.dart';
+import 'package:grad_project/modules/create_project_and_job/screens/edit_provider_job.dart';
 
 import '../../../core/utils/colors_palette.dart';
 import '../../../core/utils/end_points.dart';
@@ -99,7 +101,7 @@ class CustomJobsCardWidget extends StatelessWidget {
                       padding: const EdgeInsets.symmetric(
                           horizontal: 0.0, vertical: 8.0),
                       child: ElevatedButton(
-                        onPressed: () => log('message'),
+                        onPressed: () => context.push(UpdateProviderJobScreen(job: job)),
                         style: ElevatedButton.styleFrom(
                           backgroundColor:
                               ColorsPalette.primaryColorApp.withOpacity(0.9),
@@ -108,7 +110,7 @@ class CustomJobsCardWidget extends StatelessWidget {
                           ),
                         ),
                         child: const Text(
-                          'Details',
+                          'Update',
                           style: TextStyle(
                             color: Colors.white,
                           ),

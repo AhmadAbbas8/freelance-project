@@ -77,8 +77,8 @@ class HomeCustomerRemoteDataSource {
       var data2 = FormData.fromMap({
         'Image': await MultipartFile.fromFile((data['files'] as XFile).path,
             filename: (data['files'] as XFile).name.split('/').last),
-        'Title': data['Description'],
-        'Description': data['Title']
+        'Title': data['Title'],
+        'Description': data['Description']
       });
 
       var dio = Dio();

@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:bloc/bloc.dart';
 import 'package:grad_project/core/network/api/api_consumer.dart';
 import 'package:grad_project/core/utils/end_points.dart';
@@ -14,13 +16,13 @@ class JobsCubit extends Cubit<JobsState> {
 
   List<JobModel> jobs = [];
 
-  deleteJob(int index) async {
+  deleteJob(int index)  {
     emit(DeleteJobLoading());
-    _api.delete('${EndPoints.jobs}/${jobs[index].id}').then((value) {
+    _api.delete('${EndPoints.jobs}/${jobs[index].id}').then((_) {
       jobs.removeAt(index);
       emit(DeleteJobSuccess(msg: 'Job Deleted Successfully'));
-    }).catchError((onError) {
-      print(onError.toString());
+    }).onError((e,onError) {
+      log(onError.toString(),name: 'onerror cubit');
       emit(DeleteJobError(msg: 'Error occur while deleted job'));
     });
   }

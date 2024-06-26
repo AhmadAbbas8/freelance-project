@@ -1,11 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:grad_project/core/helpers/extensions/navigation_extensions.dart';
 import 'package:grad_project/core/network/api/api_consumer.dart';
 import 'package:grad_project/core/network/api/dio_consumer.dart';
 import 'package:grad_project/core/service_locator/service_locator.dart';
 import 'package:grad_project/core/utils/app_strings.dart';
 import 'package:grad_project/core/widgets/custom_app_drawer.dart';
 import 'package:grad_project/core/widgets/loading_widget.dart';
+import 'package:grad_project/modules/create_project_and_job/screens/create_new_project_job_screen.dart';
 import 'package:grad_project/modules/home_provider/cubits/home_provider_cubit/home_provider_cubit.dart';
 import 'package:grad_project/modules/home_provider/screens/jobs_provider_layout.dart';
 
@@ -74,6 +76,12 @@ class HomeProviderScreen extends StatelessWidget {
                   label: 'Jobs',
                 ),
               ],
+            ),
+            floatingActionButton: FloatingActionButton(
+              onPressed: () => context.push(
+                CreateNewProjectScreen(isCreateProject: false),
+              ),
+              child: Icon(IconBroken.Plus),
             ),
           );
         },

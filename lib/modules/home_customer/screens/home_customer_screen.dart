@@ -13,7 +13,7 @@ import 'package:grad_project/core/widgets/custom_app_drawer.dart';
 import 'package:grad_project/core/widgets/loading_widget.dart';
 import 'package:grad_project/modules/home_customer/data/model/project_model.dart';
 import 'package:grad_project/modules/home_customer/logic/home_customer_cubit.dart';
-import 'package:grad_project/modules/home_customer/screens/create_new_project_screen.dart';
+import 'package:grad_project/modules/create_project_and_job/screens/create_new_project_job_screen.dart';
 
 import '../widgets/categories_widget_layout.dart';
 import '../widgets/custom_home_customer_card.dart';
@@ -75,7 +75,7 @@ class HomeCustomerScreen extends StatelessWidget {
             ),
             floatingActionButton: FloatingActionButton(
               onPressed: () => context.push(
-                const CreateNewProjectScreen(),
+                const CreateNewProjectScreen(isCreateProject: true),
               ),
               child: const Icon(IconBroken.Plus),
             ),

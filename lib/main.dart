@@ -26,7 +26,7 @@ class MyApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       theme: AppTheme.lightTheme,
       locale: Locale('en'),
-      home: const HomeProviderScreen(),
+      home: const HomeCustomerScreen(),
     );
   }
 }

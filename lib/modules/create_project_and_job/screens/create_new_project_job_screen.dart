@@ -9,23 +9,33 @@ import 'package:grad_project/core/helpers/snackbars/snackbars.dart';
 import 'package:grad_project/core/service_locator/service_locator.dart';
 import 'package:grad_project/core/utils/icon_broken.dart';
 import 'package:grad_project/modules/auth/widgets/custom_text_form_field_login.dart';
-import 'package:grad_project/modules/home_customer/logic/home_customer_cubit.dart';
+import 'package:grad_project/modules/create_project_and_job/logic/create_project_job_cubit.dart';
 import 'package:grad_project/modules/home_customer/screens/home_customer_screen.dart';
+import 'package:grad_project/modules/home_provider/screens/home_provider_screen.dart';
 
 class CreateNewProjectScreen extends StatelessWidget {
-  const CreateNewProjectScreen({super.key});
+  const CreateNewProjectScreen({
+    super.key,
+    required this.isCreateProject,
+  });
+
+  final bool isCreateProject;
 
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (_) => ServiceLocator.instance<HomeCustomerCubit>(),
-      child: BlocConsumer<HomeCustomerCubit, HomeCustomerState>(
+      create: (_) => ServiceLocator.instance<CreateProjectJobCubit>(),
+      child: BlocConsumer<CreateProjectJobCubit, CreateProjectJobState>(
         listener: (context, state) {
           if (state is AddNewProjectLoading) {
             showCustomProgressIndicator(context);
           }
           if (state is AddNewProjectSuccess) {
-            context.pushAndRemoveUntil(HomeCustomerScreen(), (route) => false);
+            context.pushAndRemoveUntil(
+                isCreateProject
+                    ? const HomeCustomerScreen()
+                    : const HomeProviderScreen(),
+                (route) => false);
             ServiceLocator.instance<SnackBars>().success(
               context: context,
               message: 'Added Successfully',
@@ -38,17 +48,21 @@ class CreateNewProjectScreen extends StatelessWidget {
           }
         },
         builder: (context, state) {
-          var cubit = context.read<HomeCustomerCubit>();
+          var cubit = context.read<CreateProjectJobCubit>();
           return Scaffold(
             appBar: AppBar(
-              title: const Text(
-                'New Project',
+              title: Text(
+                isCreateProject ? 'New Project' : 'New Job',
               ),
               actions: [
                 IconButton(
                   onPressed: () async {
-                    if (cubit.checkAllValuesForCreateProject()) {
-                      cubit.addNewProject();
+                    if (cubit.checkAllValuesForCreateProject(isCreateProject)) {
+                      if (isCreateProject) {
+                        cubit.addNewProject();
+                      } else {
+                        await cubit.addNewJob();
+                      }
                     } else {
                       ServiceLocator.instance<SnackBars>().info(
                         context: context,
@@ -71,12 +85,28 @@ class CreateNewProjectScreen extends StatelessWidget {
                         hintText: 'Write Title',
                         controller: cubit.titleController,
                       ),
-                      SizedBox(height: 10),
+                      const SizedBox(height: 10),
                       CustomTextFormFieldLogin(
                         hintText: 'Write Description',
                         controller: cubit.descriptionController,
                         maxLines: 3,
                       ),
+                      if (!isCreateProject) ...[
+                        const SizedBox(height: 10),
+                        CustomTextFormFieldLogin(
+                          hintText: 'Start Date',
+                          readOnly: true,
+                          controller: cubit.startDateController,
+                          onTap: () => cubit.onTapStartDate(context),
+                        ),
+                        const SizedBox(height: 10),
+                        CustomTextFormFieldLogin(
+                          hintText: 'End Date',
+                          readOnly: true,
+                          controller: cubit.endDateController,
+                          onTap: () => cubit.onTapEndDate(context),
+                        ),
+                      ]
                     ],
                   ),
                   const SliverPadding(

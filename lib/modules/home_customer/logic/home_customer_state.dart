@@ -4,19 +4,19 @@ part of 'home_customer_cubit.dart';
 sealed class HomeCustomerState {}
 
 final class HomeCustomerInitial extends HomeCustomerState {}
-final class AddNewProjectLoading extends HomeCustomerState {}
-final class AddNewProjectError extends HomeCustomerState {
-  final String msg;
-
-  AddNewProjectError({required this.msg});
-}
-final class AddNewProjectSuccess extends HomeCustomerState {}
-
-final class PickedImageSuccess extends HomeCustomerState {
-  final XFile? image;
-
-  PickedImageSuccess({ this.image});
-}
+// final class AddNewProjectLoading extends HomeCustomerState {}
+// final class AddNewProjectError extends HomeCustomerState {
+//   final String msg;
+//
+//   AddNewProjectError({required this.msg});
+// }
+// final class AddNewProjectSuccess extends HomeCustomerState {}
+//
+// final class PickedImageSuccess extends HomeCustomerState {
+//   final XFile? image;
+//
+//   PickedImageSuccess({ this.image});
+// }
 
 final class FetchCategoriesLoading extends HomeCustomerState {}
 

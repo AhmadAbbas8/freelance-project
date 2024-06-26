@@ -4,8 +4,6 @@ import 'package:dio/dio.dart';
 
 import 'package:pretty_dio_logger/pretty_dio_logger.dart';
 
-import '../../error/default_response.dart';
-import '../../error/exception.dart';
 import 'api_consumer.dart';
 import 'api_interceptors.dart';
 
@@ -28,7 +26,7 @@ class DioConsumer extends ApiConsumer {
   }
 
   @override
-  Future<Response> delete(
+  Future<Response?> delete(
     String path, {
     dynamic data,
     Map<String, dynamic>? queryParameters,
@@ -40,7 +38,7 @@ class DioConsumer extends ApiConsumer {
         data: isFromData ? FormData.fromMap(data) : data,
         queryParameters: queryParameters,
       );
-      return response.data;
+      return response;
     } on DioException {
       rethrow;
     }
@@ -60,7 +58,7 @@ class DioConsumer extends ApiConsumer {
         queryParameters: queryParameters,
       );
       return response;
-    } on DioException catch(e) {
+    } on DioException catch (e) {
       rethrow;
     }
   }
@@ -101,7 +99,8 @@ class DioConsumer extends ApiConsumer {
       );
       return response;
     } on DioException catch (e) {
-      rethrow;    }
+      rethrow;
+    }
   }
 
   @override
@@ -111,15 +110,15 @@ class DioConsumer extends ApiConsumer {
     Map<String, dynamic>? queryParameters,
     bool isFromData = false,
   }) async {
-    print(path);
     try {
       var response = await dio.post(path,
-          data: data,
+          data: isFromData ?FormData.fromMap(data): data,
           queryParameters: queryParameters,
           options: Options(
               contentType: isFromData
                   ? Headers.multipartFormDataContentType
-                  : Headers.jsonContentType));
+                  : Headers.jsonContentType)
+          );
       return response;
     } on DioException catch (e) {
       print(e.error.toString());

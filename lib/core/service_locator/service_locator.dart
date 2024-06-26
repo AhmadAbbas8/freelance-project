@@ -3,6 +3,7 @@ import 'package:get_it/get_it.dart';
 import 'package:grad_project/modules/auth/auth_cubit/auth_cubit.dart';
 import 'package:grad_project/modules/auth/data/auth_remote_data_source.dart';
 import 'package:grad_project/modules/auth/data/auth_repo.dart';
+import 'package:grad_project/modules/create_project_and_job/logic/create_project_job_cubit.dart';
 import 'package:grad_project/modules/home_customer/data/data_sources/action_customer_remote_data_source.dart';
 import 'package:grad_project/modules/home_customer/data/data_sources/home_customer_remote_data_source.dart';
 import 'package:grad_project/modules/home_customer/data/repo/action_customer_repo.dart';
@@ -37,7 +38,7 @@ class ServiceLocator {
     instance.registerLazySingleton<ApiConsumer>(() => DioConsumer(
             dio: Dio(BaseOptions(
           baseUrl: EndPoints.BASE_URL,
-          validateStatus: (status) => status == 200 || status == 201,
+          validateStatus: (status) => status == 200 || status == 201|| status == 204,
           headers: {
             'Content-Type': 'application/json',
           },
@@ -56,6 +57,8 @@ class ServiceLocator {
     instance.registerFactory<JobsCubit>(() => JobsCubit(
           apiConsumer: instance(),
         ));
+    instance.registerFactory<CreateProjectJobCubit>(() => CreateProjectJobCubit(
+        homeCustomerRepo: instance(), cacheStorage: instance(),api: instance()));
 
     // * DataSources
     instance.registerLazySingleton<AuthRemoteDataSource>(() =>
