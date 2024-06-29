@@ -16,16 +16,19 @@ import '../data/model/project_model.dart';
 class CustomProjectCardWidget extends StatelessWidget {
   final ProjectModel project;
   final bool isDetailsAppear;
+  final void Function()? onPressedDone;
+  final void Function()? onPressedAssigned;
 
   const CustomProjectCardWidget({
     super.key,
     required this.project,
     this.isDetailsAppear = true,
+    this.onPressedDone,
+    this.onPressedAssigned,
   });
 
   @override
   Widget build(BuildContext context) {
-
     return Card(
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(15.0),
@@ -86,30 +89,70 @@ class CustomProjectCardWidget extends StatelessWidget {
                 ),
                 const SizedBox(height: 10),
                 if (isDetailsAppear)
-                  Align(
-                    alignment: Alignment.bottomRight,
-                    child: Padding(
-                      padding: const EdgeInsets.symmetric(
-                          horizontal: 0.0, vertical: 8.0),
-                      child: ElevatedButton(
-                        onPressed: () => context.push(
-                          ProjectDetailsScreen(project: project),
-                        ),
-                        style: ElevatedButton.styleFrom(
-                          backgroundColor:
-                              ColorsPalette.primaryColorApp.withOpacity(0.9),
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(30.0),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                    children: [
+                      Padding(
+                        padding: const EdgeInsets.symmetric(
+                            horizontal: 0.0, vertical: 8.0),
+                        child: ElevatedButton(
+                          onPressed: () => context.push(
+                            ProjectDetailsScreen(project: project),
                           ),
-                        ),
-                        child: const Text(
-                          'Details',
-                          style: TextStyle(
-                            color: Colors.white,
+                          style: ElevatedButton.styleFrom(
+                            backgroundColor:
+                                ColorsPalette.primaryColorApp.withOpacity(0.9),
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(30.0),
+                            ),
+                          ),
+                          child: const Text(
+                            'Details',
+                            style: TextStyle(
+                              color: Colors.white,
+                            ),
                           ),
                         ),
                       ),
-                    ),
+                    if(onPressedAssigned!=null)  Padding(
+                        padding: const EdgeInsets.symmetric(
+                            horizontal: 0.0, vertical: 8.0),
+                        child: ElevatedButton(
+                          onPressed: onPressedAssigned,
+                          style: ElevatedButton.styleFrom(
+                            backgroundColor: Colors.green[500],
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(30.0),
+                            ),
+                          ),
+                          child: const Text(
+                            'Assigned',
+                            style: TextStyle(
+                              color: Colors.white,
+                            ),
+                          ),
+                        ),
+                      ),
+                      if(onPressedDone!=null)  Padding(
+                        padding: const EdgeInsets.symmetric(
+                            horizontal: 0.0, vertical: 8.0),
+                        child: ElevatedButton(
+                          onPressed:onPressedDone,
+                          style: ElevatedButton.styleFrom(
+                            backgroundColor: Colors.green,
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(30.0),
+                            ),
+                          ),
+                          child: const Text(
+                            'Done',
+                            style: TextStyle(
+                              color: Colors.white,
+                            ),
+                          ),
+                        ),
+                      ),
+                    ],
                   ),
               ],
             ),

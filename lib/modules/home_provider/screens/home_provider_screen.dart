@@ -8,6 +8,7 @@ import 'package:grad_project/core/utils/app_strings.dart';
 import 'package:grad_project/core/widgets/custom_app_drawer.dart';
 import 'package:grad_project/core/widgets/loading_widget.dart';
 import 'package:grad_project/modules/create_project_and_job/screens/create_new_project_job_screen.dart';
+import 'package:grad_project/modules/home_customer/logic/profiles_cubit/profiles_cubit.dart';
 import 'package:grad_project/modules/home_provider/cubits/home_provider_cubit/home_provider_cubit.dart';
 import 'package:grad_project/modules/home_provider/screens/jobs_provider_layout.dart';
 
@@ -19,20 +20,33 @@ class HomeProviderScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BlocProvider(
-      create: (_) =>
-          HomeProviderCubit(api: ServiceLocator.instance<ApiConsumer>())
-            ..getCachingUserModel()
-            ..getProjects(),
+    return MultiBlocProvider(
+      providers: [
+        BlocProvider(
+          create: (_) =>
+              HomeProviderCubit(api: ServiceLocator.instance<ApiConsumer>())
+                ..getCachingUserModel()
+                ..getProjects(),
+        ),
+        BlocProvider(
+          create: (_) => ProfilesCubit(api: ServiceLocator.instance())
+            ..getProviderItSelf(),
+        ),
+      ],
       child: BlocConsumer<HomeProviderCubit, HomeProviderState>(
         listener: (context, state) {},
         builder: (context, state) {
           var cubit = context.read<HomeProviderCubit>();
           return Scaffold(
-            drawer: CustomAppDrawer(
-              name: '${cubit.user.firstName} ${cubit.user.lastName}',
-              email: cubit.user.email ?? '',
-              profileImage: AppStrings.defImageMale,
+            drawer: BlocBuilder<ProfilesCubit, ProfilesState>(
+              builder: (context, state) {
+                return CustomAppDrawer(
+                  name: '${cubit.user.firstName} ${cubit.user.lastName}',
+                  email: cubit.user.email ?? '',
+                  profileImage: AppStrings.defImageMale,
+                  profile: context.read<ProfilesCubit>().profile,
+                );
+              },
             ),
             appBar: AppBar(
               title: const Text('Home'),

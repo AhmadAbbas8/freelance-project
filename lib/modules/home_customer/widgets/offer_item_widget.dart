@@ -83,7 +83,7 @@ class OffersItemWidget extends StatelessWidget {
                 onPressed: onAccept,
                 icon: Icon(Icons.done),
                 color: Colors.green,
-              )
+              ),
           ],
         ),
       ),

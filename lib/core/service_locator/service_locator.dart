@@ -50,6 +50,7 @@ class ServiceLocator {
     instance.registerFactory<HomeCustomerCubit>(() => HomeCustomerCubit(
           cacheStorage: instance(),
           homeCustomerRepo: instance(),
+      apiConsumer: instance()
         ));
     instance.registerFactory<ActionsCustomerCubit>(() => ActionsCustomerCubit(
           actionsCustomerRepo: instance(),
