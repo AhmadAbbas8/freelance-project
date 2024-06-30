@@ -31,7 +31,7 @@ class OffersItemWidget extends StatelessWidget {
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(10),
       ),
-      margin: EdgeInsets.all(10),
+      margin: const EdgeInsets.all(10),
       child: Padding(
         padding: const EdgeInsets.all(16.0),
         child: Row(
@@ -50,20 +50,28 @@ class OffersItemWidget extends StatelessWidget {
                       : Colors.green,
               size: 30,
             ),
-            SizedBox(width: 10),
+            const SizedBox(width: 10),
             Expanded(
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    offers.message ?? '',
-                    style: TextStyle(
-                      fontSize: 18,
+                    offers.providerName ?? '',
+                    style: const TextStyle(
+                      fontSize: 20,
                       fontWeight: FontWeight.bold,
                       color: Colors.black,
                     ),
                   ),
-                  SizedBox(height: 8),
+                  Text(
+                    offers.message ?? '',
+                    style: const TextStyle(
+                      fontSize: 15,
+                      fontWeight: FontWeight.bold,
+                      color: Colors.black,
+                    ),
+                  ),
+                  const SizedBox(height: 8),
                   Text(
                     'Status: ${offers.status}',
                     style: TextStyle(
@@ -81,7 +89,7 @@ class OffersItemWidget extends StatelessWidget {
             if (user.role == 'Customer')
               IconButton.outlined(
                 onPressed: onAccept,
-                icon: Icon(Icons.done),
+                icon: const Icon(Icons.done),
                 color: Colors.green,
               ),
           ],

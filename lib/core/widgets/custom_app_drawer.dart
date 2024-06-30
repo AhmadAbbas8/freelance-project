@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:grad_project/core/helpers/extensions/navigation_extensions.dart';
 import 'package:grad_project/modules/auth/data/auth_remote_data_source.dart';
 import 'package:grad_project/modules/auth/screens/login_screen.dart';
+import 'package:grad_project/modules/contact_us/contact_us_screen.dart';
 import 'package:grad_project/modules/home_customer/data/model/profile_details.dart';
 import 'package:grad_project/modules/profile/screen/profile_screen.dart';
 
@@ -69,10 +70,10 @@ class CustomAppDrawer extends StatelessWidget {
             title: 'Privacy policy',
             icon: IconBroken.Lock,
           ),
-          const CustomDrawerListTile(
+          CustomDrawerListTile(
             title: 'Contact us',
             icon: IconBroken.Calling,
-            // onTap: () async => await context.pushNamed(ContactUsPage.routeName),
+            onTap: () async => await context.push(const ContactUsScreen()),
           ),
           const Spacer(),
           CustomDrawerListTile(

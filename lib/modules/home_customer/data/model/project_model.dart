@@ -9,12 +9,12 @@ class ProjectModel {
 
   ProjectModel(
       {this.id,
-        this.title,
-        this.description,
-        this.createdById,
-        this.status,
-        this.imageName,
-        this.offers});
+      this.title,
+      this.description,
+      this.createdById,
+      this.status,
+      this.imageName,
+      this.offers});
 
   ProjectModel.fromJson(Map<String, dynamic> json) {
     id = json['id'];
@@ -50,13 +50,20 @@ class Offers {
   int? id;
   String? message;
   String? status;
+  String? providerName;
 
-  Offers({this.id, this.message, this.status});
+  Offers({
+    this.id,
+    this.message,
+    this.status,
+    this.providerName,
+  });
 
   Offers.fromJson(Map<String, dynamic> json) {
     id = json['id'];
     message = json['message'];
     status = json['status'];
+    providerName = json['providerName'];
   }
 
   Map<String, dynamic> toJson() {
@@ -64,6 +71,7 @@ class Offers {
     data['id'] = this.id;
     data['message'] = this.message;
     data['status'] = this.status;
+    data['providerName'] = this.providerName;
     return data;
   }
 }
