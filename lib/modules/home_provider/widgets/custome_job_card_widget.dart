@@ -1,7 +1,13 @@
+import 'dart:convert';
 import 'dart:developer';
 
 import 'package:flutter/material.dart';
+import 'package:grad_project/core/cache_helper/cache_storage.dart';
+import 'package:grad_project/core/cache_helper/shared_prefs_cache.dart';
+import 'package:grad_project/core/cache_helper/shared_prefs_keys.dart';
 import 'package:grad_project/core/helpers/extensions/navigation_extensions.dart';
+import 'package:grad_project/core/service_locator/service_locator.dart';
+import 'package:grad_project/modules/auth/data/user_model.dart';
 import 'package:grad_project/modules/create_project_and_job/screens/edit_provider_job.dart';
 
 import '../../../core/utils/colors_palette.dart';
@@ -20,6 +26,12 @@ class CustomJobsCardWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    var user = UserModel.fromJson(
+      json.decode(
+        ServiceLocator.instance<CacheStorage>()
+            .getData(key: SharedPrefsKeys.user),
+      ),
+    );
     return Card(
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(15.0),
@@ -74,7 +86,7 @@ class CustomJobsCardWidget extends StatelessWidget {
                 const SizedBox(height: 5),
 
                 // if (isDetailsAppear)
-                Row(
+                if(user.role?.toUpperCase() == 'Provider'.toUpperCase())   Row(
                   // alignment: Alignment.bottomRight,
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
@@ -101,7 +113,8 @@ class CustomJobsCardWidget extends StatelessWidget {
                       padding: const EdgeInsets.symmetric(
                           horizontal: 0.0, vertical: 8.0),
                       child: ElevatedButton(
-                        onPressed: () => context.push(UpdateProviderJobScreen(job: job)),
+                        onPressed: () =>
+                            context.push(UpdateProviderJobScreen(job: job)),
                         style: ElevatedButton.styleFrom(
                           backgroundColor:
                               ColorsPalette.primaryColorApp.withOpacity(0.9),
